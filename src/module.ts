@@ -3,6 +3,8 @@ import { compile } from "sass";
 import { defineNuxtModule, addPlugin, createResolver, resolvePath, useLogger } from "@nuxt/kit";
 import { mkdirSync, writeFileSync, readdirSync } from "node:fs";
 
+import { name, version } from "../package.json";
+
 // supported rules
 export type LazyLoadRule = "widthGT" | "widthLT";
 
@@ -10,40 +12,38 @@ export type LazyLoadRule = "widthGT" | "widthLT";
 export type LazyLoadRuleScreenSize = { width: number };
 
 // rule to configuration mapper
-interface RuleConfigMap {
+interface LazyLoadRuleConfigMap {
   widthGT: LazyLoadRuleScreenSize;
   widthLT: LazyLoadRuleScreenSize;
 }
 
 // RuleConfigurations maps each LazyLoadRule to its corresponding config
-export type RuleConfigurations = {
-  [key in LazyLoadRule]?: RuleConfigMap[key];
+export type LazyLoadRuleConfiguration = {
+  [key in LazyLoadRule]?: LazyLoadRuleConfigMap[key];
 };
 
-// LazyCSSFile ensures that the properties from RuleConfigMap[R] are included based on the rule
-export interface LazyCSSFile extends RuleConfigurations {
+export interface LazyCSSFile extends LazyLoadRuleConfiguration {
   // relative to nuxt.options.rootDir
   filePath: string;
   // relative to nuxt.options.rootDir
   outputFilename?: string;
 }
 
-// ModuleOptions ensures that files are correctly typed based on the rule and includes the RuleConfigurations
-export interface ModuleOptions extends RuleConfigurations {
+// ModuleOptions ensures that files are correctly typed based on the rule and includes the LazyLoadRuleConfiguration
+export interface ModuleOptions extends LazyLoadRuleConfiguration {
   outputDir?: string;
   inputDir?: string;
   files?: LazyCSSFile[];
   plugin?: boolean;
 }
 
-export interface ProcessedFiles {
+export interface LazyLoadProcessedFiles {
   path: string;
-  rules: RuleConfigurations;
+  rules: LazyLoadRuleConfiguration;
 }
 
-const key = "lazy-load-css";
-const logger = useLogger(`nuxt:${key}`);
-const rootDir = `node_modules/.cache/${key}`;
+const logger = useLogger(`nuxt:${version}`);
+const rootDir = `node_modules/.cache/${version}`;
 
 const defaults: Required<Pick<ModuleOptions, "inputDir" | "outputDir" | "plugin">> = {
   inputDir: "app/assets/scss",
@@ -54,7 +54,7 @@ const defaults: Required<Pick<ModuleOptions, "inputDir" | "outputDir" | "plugin"
 // remove OS shenannigans with folder dividers
 const normalizePath = (path: string) => path.replaceAll(/[\/\\]/g, "");
 
-const getFilesToProcess = (specificFiles: LazyCSSFile[], rules: RuleConfigurations, inputDir?: string) => {
+const getFilesToProcess = (specificFiles: LazyCSSFile[], rules: LazyLoadRuleConfiguration, inputDir?: string) => {
   // if user only specified specific files, no need to do anything regarding dir search
   if (specificFiles.length && !inputDir) {
     return specificFiles;
@@ -87,7 +87,12 @@ const getFilesToProcess = (specificFiles: LazyCSSFile[], rules: RuleConfiguratio
 };
 
 export default defineNuxtModule<ModuleOptions>({
-  meta: { name: key, configKey: "lazyLoadCSS" },
+  meta: {
+    name,
+    version,
+    configKey: "lazyLoadCSS",
+    compatibility: { nuxt: ">=3.0.0" },
+  },
   defaults,
   async setup(options, nuxt) {
     const { plugin, files, outputDir, inputDir, ...rules } = options;
@@ -102,7 +107,7 @@ export default defineNuxtModule<ModuleOptions>({
       const resolvedOutputDir = await resolvePath(resolve(rootDir, outputDir || defaults.outputDir));
       mkdirSync(resolvedOutputDir, { recursive: true });
 
-      const processedFiles: ProcessedFiles[] = [];
+      const processedFiles: LazyLoadProcessedFiles[] = [];
 
       getFilesToProcess(files || [], rules, inputDir).forEach(({ filePath, outputFilename, ...rules }) => {
         const filename = outputFilename || `${basename(filePath, extname(filePath))}.css`;
@@ -150,7 +155,7 @@ export default defineNuxtModule<ModuleOptions>({
         addPlugin(
           {
             mode: "client",
-            name: "lazyload-css.client.ts",
+            name: `${name}.client.ts`,
             src: createResolver(import.meta.url).resolve("./runtime/plugin"),
           },
           { append: true },

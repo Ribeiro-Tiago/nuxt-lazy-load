@@ -1,4 +1,5 @@
-import type { LazyLoadRule, LazyLoadRuleScreenSize, ProcessedFiles } from "../module";
+import type { LazyLoadRule, LazyLoadRuleScreenSize, LazyLoadProcessedFiles } from "../module";
+import { name } from "../../package.json";
 
 const screensizeGreaterThan = (path: string, { width }: LazyLoadRuleScreenSize) => {
   if (window.innerWidth < width) {
@@ -27,13 +28,13 @@ const ruleMapper: Record<LazyLoadRule, Function> = {
 };
 
 export default defineNuxtPlugin({
-  name: "lazyload-css",
+  name,
   parallel: true,
   hooks: {
     "app:created"(_app) {
       const config = useRuntimeConfig();
 
-      const files: ProcessedFiles[] = config.app.lazyLoadCSS;
+      const files: LazyLoadProcessedFiles[] = config.app.lazyLoadCSS;
 
       if (!files) {
         return;
