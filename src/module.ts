@@ -1,4 +1,4 @@
-import { resolve, dirname, basename, join } from "node:path";
+import { resolve, dirname, extname, basename, join } from "node:path";
 import { compile } from "sass";
 import { defineNuxtModule, addPlugin, createResolver, resolvePath, useLogger } from "@nuxt/kit";
 import { mkdirSync, writeFileSync, readdirSync } from "node:fs";
@@ -16,7 +16,7 @@ interface RuleConfigMap {
 }
 
 // RuleConfigurations maps each LazyLoadRule to its corresponding config
-type RuleConfigurations = {
+export type RuleConfigurations = {
   [key in LazyLoadRule]?: RuleConfigMap[key];
 };
 
@@ -36,6 +36,11 @@ export interface ModuleOptions extends RuleConfigurations {
   plugin?: boolean;
 }
 
+export interface ProcessedFiles {
+  path: string;
+  rules: RuleConfigurations;
+}
+
 const key = "lazy-load-css";
 const logger = useLogger(`nuxt:${key}`);
 const rootDir = `node_modules/.cache/${key}`;
@@ -49,7 +54,7 @@ const defaults: Required<Pick<ModuleOptions, "inputDir" | "outputDir" | "plugin"
 // remove OS shenannigans with folder dividers
 const normalizePath = (path: string) => path.replaceAll(/[\/\\]/g, "");
 
-const getFilesToProcess = (specificFiles: LazyCSSFile[], inputDir?: string) => {
+const getFilesToProcess = (specificFiles: LazyCSSFile[], rules: RuleConfigurations, inputDir?: string) => {
   // if user only specified specific files, no need to do anything regarding dir search
   if (specificFiles.length && !inputDir) {
     return specificFiles;
@@ -57,7 +62,7 @@ const getFilesToProcess = (specificFiles: LazyCSSFile[], inputDir?: string) => {
 
   // maps files to object where key is input path to be able to remove duplicates if user also has inputDir
   const files: Record<string, LazyCSSFile> = specificFiles.reduce<Record<string, LazyCSSFile>>((res, item) => {
-    res[normalizePath(item.filePath)] = item;
+    res[normalizePath(item.filePath)] = { ...rules, ...item };
     return res;
   }, {});
 
@@ -65,8 +70,16 @@ const getFilesToProcess = (specificFiles: LazyCSSFile[], inputDir?: string) => {
     const path = join(file.parentPath, file.name);
     const normalizedPath = normalizePath(path);
 
-    if (file.isFile() && !(normalizedPath in files)) {
-      files[normalizedPath] = { filePath: path };
+    if (file.isDirectory()) {
+      return;
+    }
+
+    if (normalizedPath in files) {
+      logger.warn(
+        `You manually included a file in "files" that also exist in the directory you defined with "inputDir". Skipping duplicate file ${path}`,
+      );
+    } else {
+      files[normalizedPath] = { filePath: path, ...rules };
     }
   });
 
@@ -89,18 +102,26 @@ export default defineNuxtModule<ModuleOptions>({
       const resolvedOutputDir = await resolvePath(resolve(rootDir, outputDir || defaults.outputDir));
       mkdirSync(resolvedOutputDir, { recursive: true });
 
-      getFilesToProcess(files || [], inputDir).forEach(({ filePath, outputFilename }) => {
+      const processedFiles: ProcessedFiles[] = [];
+
+      getFilesToProcess(files || [], rules, inputDir).forEach(({ filePath, outputFilename, ...rules }) => {
+        const filename = outputFilename || `${basename(filePath, extname(filePath))}.css`;
         let outputPath = outputFilename
           ? // if user specified filename for end product, use it
-            resolve(dirname(resolvedOutputDir), outputFilename)
+            resolve(dirname(resolvedOutputDir), filename)
           : // if not, use the original filename
-            resolve(resolvedOutputDir, basename(filePath));
+            resolve(resolvedOutputDir, filename);
 
         // compile to css
         const result = compile(resolve(nuxt.options.rootDir, filePath), { style: "compressed" });
 
-        if (!result || !result.css) {
-          logger.error(`Failed to compile "${filePath}": "${result}"`);
+        if (!result) {
+          logger.error(`Failed to compile "${filePath}": "${JSON.stringify(result)}"`);
+          return;
+        }
+
+        if (!result.css) {
+          logger.warn(`"${filePath}" is empty, skipping file`);
           return;
         }
 
@@ -108,18 +129,24 @@ export default defineNuxtModule<ModuleOptions>({
 
         // write compiled css to outputPath
         writeFileSync(outputPath, result.css);
-        logger.debug(`Compiled files stored in ${outputPath} assets directory`);
+        processedFiles.push({ path: join(outputDir || defaults.outputDir, filename), rules });
+
+        logger.debug(`Compiled files stored in ${outputPath} assets direction`);
       });
 
       // Add file to public directory
       nuxt.options.nitro = nuxt.options.nitro || {};
       nuxt.options.nitro.publicAssets = nuxt.options.nitro.publicAssets || [];
-      nuxt.options.nitro.publicAssets.push({ dir: outputDir });
-      logger.debug("Styles added to public assets directory");
+      nuxt.options.nitro.publicAssets.push({ dir: resolvedOutputDir, baseURL: outputDir || defaults.outputDir });
+      logger.debug("Styles added to public assets direction");
 
       // Register plugin
       if (options.plugin) {
         logger.debug("Registering plugin");
+
+        nuxt.options.runtimeConfig.app = nuxt.options.runtimeConfig.app || {};
+        nuxt.options.runtimeConfig.app.lazyLoadCSS = processedFiles;
+
         addPlugin(
           {
             mode: "client",
