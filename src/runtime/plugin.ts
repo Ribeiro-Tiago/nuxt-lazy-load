@@ -1,3 +1,4 @@
+import { defineNuxtPlugin, useRuntimeConfig, useHead } from "#imports";
 import type { LazyLoadRule, LazyLoadRuleScreenSize, LazyLoadProcessedFiles } from "../module";
 import { name } from "../../package.json";
 
@@ -22,6 +23,7 @@ const screensizeGreaterThan = (path: string, { width }: LazyLoadRuleScreenSize) 
   window.addEventListener("resize", update, { passive: true });
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 const ruleMapper: Record<LazyLoadRule, Function> = {
   widthLT: screensizeGreaterThan,
   widthGT: screensizeGreaterThan,
@@ -31,10 +33,8 @@ export default defineNuxtPlugin({
   name,
   parallel: true,
   hooks: {
-    "app:created"(_app) {
-      const config = useRuntimeConfig();
-
-      const files: LazyLoadProcessedFiles[] = config.app.lazyLoadCSS;
+    "app:created"() {
+      const files: LazyLoadProcessedFiles[] = useRuntimeConfig().app.lazyLoadCSS;
 
       if (!files) {
         return;

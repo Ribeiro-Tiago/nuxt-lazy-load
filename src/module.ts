@@ -52,7 +52,7 @@ const defaults: Required<Pick<ModuleOptions, "inputDir" | "outputDir" | "plugin"
 };
 
 // remove OS shenannigans with folder dividers
-const normalizePath = (path: string) => path.replaceAll(/[\/\\]/g, "");
+const normalizePath = (path: string) => path.replaceAll(/[/\\]/g, "");
 
 const getFilesToProcess = (specificFiles: LazyCSSFile[], rules: LazyLoadRuleConfiguration, inputDir?: string) => {
   // if user only specified specific files, no need to do anything regarding dir search
@@ -111,7 +111,7 @@ export default defineNuxtModule<ModuleOptions>({
 
       getFilesToProcess(files || [], rules, inputDir).forEach(({ filePath, outputFilename, ...rules }) => {
         const filename = outputFilename || `${basename(filePath, extname(filePath))}.css`;
-        let outputPath = outputFilename
+        const outputPath = outputFilename
           ? // if user specified filename for end product, use it
             resolve(dirname(resolvedOutputDir), filename)
           : // if not, use the original filename
@@ -146,7 +146,7 @@ export default defineNuxtModule<ModuleOptions>({
       logger.debug("Styles added to public assets direction");
 
       // Register plugin
-      if (options.plugin) {
+      if (plugin) {
         logger.debug("Registering plugin");
 
         nuxt.options.runtimeConfig.app = nuxt.options.runtimeConfig.app || {};
