@@ -6,6 +6,20 @@ Find and replace all on all files (CMD+SHIFT+F):
 - Package name: my-module
 - Description: My new Nuxt module
 -->
+# [WIP] module still under development, shouldn't be used yet 
+
+### Things that still need done before I'd recommend you using it: 
+
+- recheck the actual compiling behaviour, is it needed or can use rollup configs (https://rollupjs.org/configuration-options/#output-assetfilenames)
+- fix typing (and make it exportable so projects using this will have access to it)
+- add tests
+
+### Not as critical but also wanna do
+
+- refactor the whole rule thing to be more scalable
+- document stuff
+- automate deployment process
+- implement playground
 
 # My Module
 
