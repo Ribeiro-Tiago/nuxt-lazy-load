@@ -43,10 +43,9 @@ export interface LazyLoadProcessedFiles {
 }
 
 const logger = useLogger(`nuxt:${version}`);
-const rootDir = `node_modules/.cache/${version}`;
+const rootDir = `node_modules/.cache/${name}`;
 
-const defaults: Required<Pick<ModuleOptions, "inputDir" | "outputDir" | "plugin">> = {
-  inputDir: "app/assets/scss",
+const defaults: Required<Pick<ModuleOptions, "outputDir" | "plugin">> = {
   outputDir: "assets/css",
   plugin: true,
 };
@@ -66,22 +65,24 @@ const getFilesToProcess = (specificFiles: LazyCSSFile[], rules: LazyLoadRuleConf
     return res;
   }, {});
 
-  readdirSync(inputDir!, { withFileTypes: true, recursive: true }).forEach((file) => {
-    const path = join(file.parentPath, file.name);
-    const normalizedPath = normalizePath(path);
+  if (inputDir) {
+    readdirSync(inputDir, { withFileTypes: true, recursive: true }).forEach((file) => {
+      const path = join(file.parentPath, file.name);
+      const normalizedPath = normalizePath(path);
 
-    if (file.isDirectory()) {
-      return;
-    }
+      if (file.isDirectory()) {
+        return;
+      }
 
-    if (normalizedPath in files) {
-      logger.warn(
-        `You manually included a file in "files" that also exist in the directory you defined with "inputDir". Skipping duplicate file ${path}`,
-      );
-    } else {
-      files[normalizedPath] = { filePath: path, ...rules };
-    }
-  });
+      if (normalizedPath in files) {
+        logger.warn(
+          `You manually included a file in "files" that also exist in the directory you defined with "inputDir". Skipping duplicate file ${path}`,
+        );
+      } else {
+        files[normalizedPath] = { filePath: path, ...rules };
+      }
+    });
+  }
 
   return Object.values(files);
 };
