@@ -1,6 +1,6 @@
 {
   "name": "nuxt-lazyload-css",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Module to allow lazy load specific CSS files, so they're only imported when used (e.g.: screen size related stylings)",
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
     "release": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
+    "release:beta": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish --tag beta && git push --follow-tags",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest watch",
