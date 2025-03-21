@@ -18,7 +18,7 @@ export default defineNuxtModule<ModuleOptions>({
       logger.level = LogLevels.verbose;
     }
 
-    logger.start("Running nuxt-lazy-load...");
+    logger.start(`Running ${name}...`);
 
     try {
       const processor = new FileProcessor(logger, nuxt.options.rootDir);
@@ -51,7 +51,7 @@ export default defineNuxtModule<ModuleOptions>({
         );
       }
 
-      logger.success("nuxt-lazyload-css finished successfully");
+      logger.success(`${name} finished successfully`);
     } catch (err) {
       logger.error(err);
     }
@@ -60,3 +60,4 @@ export default defineNuxtModule<ModuleOptions>({
 
 // export all typings so they're available to people that use this module
 export * from "./types/modules";
+export * from "./types/files";

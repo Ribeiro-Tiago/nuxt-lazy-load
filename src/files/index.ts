@@ -53,12 +53,12 @@ class FileProcessor {
   }
 
   async processFiles({ files, outputDir, inputDir, ...rules }: ModuleOptions) {
-    await this.ensureOutputDir(outputDir);
-
     if ((!files || Object.keys(files)) && !rules) {
       this.logger.warn("No files or path were defined. Stopping");
       return;
     }
+
+    await this.ensureOutputDir(outputDir);
 
     return Object.entries(files!).reduce<LazyLoadProcessedFiles[]>((result, [type, value]) => {
       const processor = FileTypeMapper[type as FileType];
