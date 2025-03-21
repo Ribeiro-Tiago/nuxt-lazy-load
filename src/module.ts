@@ -2,47 +2,12 @@ import { resolve, dirname, extname, basename, join } from "node:path";
 import { compile } from "sass";
 import { defineNuxtModule, addPlugin, createResolver, resolvePath, useLogger } from "@nuxt/kit";
 import { mkdirSync, writeFileSync, readdirSync } from "node:fs";
+import { LogLevels } from "consola";
 
 import { name, version } from "../package.json";
+import type { LazyFile, ModuleOptions, LazyLoadRuleConfiguration, LazyLoadProcessedFiles } from "./types/module";
 
-// supported rules
-export type LazyLoadRule = "widthGT" | "widthLT";
-
-// rule specific configuration
-export type LazyLoadRuleScreenSize = { width: number };
-
-// rule to configuration mapper
-interface LazyLoadRuleConfigMap {
-  widthGT: LazyLoadRuleScreenSize;
-  widthLT: LazyLoadRuleScreenSize;
-}
-
-// RuleConfigurations maps each LazyLoadRule to its corresponding config
-export type LazyLoadRuleConfiguration = {
-  [key in LazyLoadRule]?: LazyLoadRuleConfigMap[key];
-};
-
-export interface LazyCSSFile extends LazyLoadRuleConfiguration {
-  // relative to nuxt.options.rootDir
-  filePath: string;
-  // relative to nuxt.options.rootDir
-  outputFilename?: string;
-}
-
-// ModuleOptions ensures that files are correctly typed based on the rule and includes the LazyLoadRuleConfiguration
-export interface ModuleOptions extends LazyLoadRuleConfiguration {
-  outputDir?: string;
-  inputDir?: string;
-  files?: LazyCSSFile[];
-  plugin?: boolean;
-}
-
-export interface LazyLoadProcessedFiles {
-  path: string;
-  rules: LazyLoadRuleConfiguration;
-}
-
-const logger = useLogger(`nuxt:${version}`);
+const logger = useLogger(`nuxt:${name}`, { level: 0 });
 const rootDir = `node_modules/.cache/${name}`;
 
 const defaults: Required<Pick<ModuleOptions, "outputDir" | "plugin">> = {
@@ -53,14 +18,14 @@ const defaults: Required<Pick<ModuleOptions, "outputDir" | "plugin">> = {
 // remove OS shenannigans with folder dividers
 const normalizePath = (path: string) => path.replaceAll(/[/\\]/g, "");
 
-const getFilesToProcess = (specificFiles: LazyCSSFile[], rules: LazyLoadRuleConfiguration, inputDir?: string) => {
+const getFilesToProcess = (specificFiles: LazyFile[], rules: LazyLoadRuleConfiguration, inputDir?: string) => {
   // if user only specified specific files, no need to do anything regarding dir search
   if (specificFiles.length && !inputDir) {
     return specificFiles;
   }
 
   // maps files to object where key is input path to be able to remove duplicates if user also has inputDir
-  const files: Record<string, LazyCSSFile> = specificFiles.reduce<Record<string, LazyCSSFile>>((res, item) => {
+  const files: Record<string, LazyFile> = specificFiles.reduce<Record<string, LazyFile>>((res, item) => {
     res[normalizePath(item.filePath)] = { ...rules, ...item };
     return res;
   }, {});
@@ -87,19 +52,21 @@ const getFilesToProcess = (specificFiles: LazyCSSFile[], rules: LazyLoadRuleConf
   return Object.values(files);
 };
 
+export const configKey = "lazyLoadFiles";
+
 export default defineNuxtModule<ModuleOptions>({
-  meta: {
-    name,
-    version,
-    configKey: "lazyLoadCSS",
-    compatibility: { nuxt: ">=3.0.0" },
-  },
+  meta: { name, version, configKey, compatibility: { nuxt: ">=3.0.0" } },
   defaults,
   async setup(options, nuxt) {
-    const { plugin, files, outputDir, inputDir, ...rules } = options;
+    const { plugin, files, outputDir, inputDir, verbose, ...rules } = options;
+    if (verbose) {
+      logger.level = LogLevels.verbose;
+    }
 
-    if (!files && !rules) {
-      logger.warn("No files were defined. Stopping");
+    logger.start(`Running ${name}...`);
+
+    if ((!files || !files.css.length) && !rules) {
+      logger.warn("No files or rules were defined. Stopping");
       return;
     }
 
@@ -110,7 +77,7 @@ export default defineNuxtModule<ModuleOptions>({
 
       const processedFiles: LazyLoadProcessedFiles[] = [];
 
-      getFilesToProcess(files || [], rules, inputDir).forEach(({ filePath, outputFilename, ...rules }) => {
+      getFilesToProcess(files?.css || [], rules, inputDir).forEach(({ filePath, outputFilename, ...rules }) => {
         const filename = outputFilename || `${basename(filePath, extname(filePath))}.css`;
         const outputPath = outputFilename
           ? // if user specified filename for end product, use it
@@ -151,7 +118,7 @@ export default defineNuxtModule<ModuleOptions>({
         logger.debug("Registering plugin");
 
         nuxt.options.runtimeConfig.app = nuxt.options.runtimeConfig.app || {};
-        nuxt.options.runtimeConfig.app.lazyLoadCSS = processedFiles;
+        nuxt.options.runtimeConfig.app[configKey] = processedFiles;
 
         addPlugin(
           {
@@ -163,9 +130,11 @@ export default defineNuxtModule<ModuleOptions>({
         );
       }
 
-      logger.log("Compilation finished");
+      logger.success(`${name} finished successfully`);
     } catch (err) {
       logger.error(err);
     }
   },
 });
+
+export * from "./types/module";
