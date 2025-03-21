@@ -3,6 +3,7 @@ import { compile } from "sass";
 import { defineNuxtModule, addPlugin, createResolver, resolvePath, useLogger } from "@nuxt/kit";
 import { mkdirSync, writeFileSync, readdirSync } from "node:fs";
 
+import { configKey } from "./config";
 import { name, version } from "../package.json";
 import type { LazyFile, ModuleOptions, LazyLoadRuleConfiguration, LazyLoadProcessedFiles } from "./types/module";
 
@@ -51,8 +52,6 @@ const getFilesToProcess = (specificFiles: LazyFile[], rules: LazyLoadRuleConfigu
 
   return Object.values(files);
 };
-
-export const configKey = "lazyLoadFiles";
 
 export default defineNuxtModule<ModuleOptions>({
   meta: { name, version, configKey, compatibility: { nuxt: ">=3.0.0" } },

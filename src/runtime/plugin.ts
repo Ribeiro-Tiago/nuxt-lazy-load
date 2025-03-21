@@ -1,6 +1,6 @@
 import { defineNuxtPlugin, useHead, useRuntimeConfig } from "#imports";
 
-import { configKey } from "../module";
+import { configKey } from "../config";
 import ruleMapper from "../rules";
 import type { LazyLoadRule, LazyLoadProcessedFiles } from "../module";
 import { name } from "../../package.json";
