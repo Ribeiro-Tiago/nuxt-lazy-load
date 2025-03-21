@@ -1,4 +1,5 @@
 import { defineNuxtPlugin, useRuntimeConfig, useHead } from "#imports";
+import { configKey } from "../module";
 import type { LazyLoadRule, LazyLoadRuleScreenSize, LazyLoadProcessedFiles } from "../module";
 import { name } from "../../package.json";
 
@@ -34,7 +35,7 @@ export default defineNuxtPlugin({
   parallel: true,
   hooks: {
     "app:created"() {
-      const files: LazyLoadProcessedFiles[] = useRuntimeConfig().app.lazyLoadCSS;
+      const files: LazyLoadProcessedFiles[] = useRuntimeConfig().app[configKey];
 
       if (!files) {
         return;
