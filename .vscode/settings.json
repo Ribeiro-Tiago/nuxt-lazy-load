@@ -1,5 +1,5 @@
 {
   "eslint.useFlatConfig": true,
   "typescript.tsdk": "node_modules\\typescript\\lib",
-  "cSpell.words": ["nuxt"]
+  "cSpell.words": ["nuxt", "screensize"]
 }

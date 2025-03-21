@@ -15,7 +15,6 @@ Find and replace all on all files (CMD+SHIFT+F):
 
 ### Not as critical but also wanna do
 
-- refactor the whole rule thing to be more scalable
 - document stuff
 - automate deployment process
 - implement playground
