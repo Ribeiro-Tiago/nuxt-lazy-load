@@ -2,12 +2,12 @@ import { resolve, dirname, extname, basename, join } from "node:path";
 import { compile } from "sass";
 import { defineNuxtModule, addPlugin, createResolver, resolvePath, useLogger } from "@nuxt/kit";
 import { mkdirSync, writeFileSync, readdirSync } from "node:fs";
-import { LogLevels } from "consola";
 
 import { name, version } from "../package.json";
 import type { LazyFile, ModuleOptions, LazyLoadRuleConfiguration, LazyLoadProcessedFiles } from "./types/module";
 
-const logger = useLogger(`nuxt:${name}`, { level: 0 });
+// log level warning
+const logger = useLogger(`nuxt:${name}`, { level: 1 });
 const rootDir = `node_modules/.cache/${name}`;
 
 const defaults: Required<Pick<ModuleOptions, "outputDir" | "plugin">> = {
@@ -60,7 +60,8 @@ export default defineNuxtModule<ModuleOptions>({
   async setup(options, nuxt) {
     const { plugin, files, outputDir, inputDir, verbose, ...rules } = options;
     if (verbose) {
-      logger.level = LogLevels.verbose;
+      // it's the verbose log level from consola
+      logger.level = Infinity;
     }
 
     logger.start(`Running ${name}...`);
