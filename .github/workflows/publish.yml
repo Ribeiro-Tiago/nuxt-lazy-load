@@ -79,7 +79,7 @@ jobs:
           path: node_modules
           key: ${{ hashFiles('**/bun.lock') }}
 
-      - name: Lint
+      - name: Typecheck
         run: bun run test:types
 
   test:
