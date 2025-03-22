@@ -81,7 +81,7 @@ jobs:
       - name: Build
         run: |
           pwd
-          bun run generate $(pwd)
+          bun run generate ./docs
           ls -la
 
       - name: Upload static files as artifact
