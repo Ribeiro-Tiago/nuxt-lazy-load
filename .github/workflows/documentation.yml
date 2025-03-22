@@ -81,8 +81,7 @@ jobs:
         id: deployment
         uses: actions/upload-pages-artifact@v3
         with:
-          # todo: figure out how to remove absolute path from here
-          path: ${pwd}/.output/public
+          path: .output/public
 
   # Deployment
   deploy:
