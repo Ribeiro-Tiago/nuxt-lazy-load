@@ -81,14 +81,14 @@ jobs:
       - name: Build
         run: |
           pwd
-          bun run generate ./docs
+          bun run generate .
           ls -la ./docs
 
       - name: Upload static files as artifact
         id: deployment
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./docs/.output/public
+          path: .output/public
 
   # Deployment
   deploy:
