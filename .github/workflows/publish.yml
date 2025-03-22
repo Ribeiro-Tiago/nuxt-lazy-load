@@ -143,53 +143,57 @@ jobs:
         with:
           path: node_modules
           key: ${{ hashFiles('**/bun.lock') }}
+
       - name: Prepare
         id: prepare
         run: |
           bunx nuxi prepare
           bun run prepack
-          if [[ $GITHUB_REF == 'refs/heads/master' ]]; then
-            bun gen:changelog
-          elif [[ $GITHUB_REF == 'refs/heads/dev' ]]; then
-            bun gen:changelog:beta
-          fi
-          VERSION=$(bun run -e "console.log(require('./package.json').version)")
-          echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
 
-      - name: Create Github Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.prepare.outputs.VERSION }}
-          release_name: Release ${{ steps.prepare.outputs.VERSION }}
-          draft: false
-          prerelease: |
-            if [[ $GITHUB_REF == 'refs/heads/master' ]]; then
-              true
-            elif [[ $GITHUB_REF == 'refs/heads/dev' ]]; then
-              false
-            fi
+      - name: Publish
+        run: |
+          bunx changelogen --publishTag \
+            $(
+              if [[ $GITHUB_REF == 'refs/heads/master' ]]; then
+                echo "--release"
+              elif [[ $GITHUB_REF == 'refs/heads/dev' ]]; then
+                echo "--prerelease --nameSuffix rc"
+              fi
+            )
+      # - name: Create Github Release
+      #   id: create_release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: ${{ steps.prepare.outputs.VERSION }}
+      #     release_name: Release ${{ steps.prepare.outputs.VERSION }}
+      #     draft: false
+      #     prerelease: |
+      #       if [[ $GITHUB_REF == 'refs/heads/master' ]]; then
+      #         true
+      #       elif [[ $GITHUB_REF == 'refs/heads/dev' ]]; then
+      #         false
+      #       fi
 
-      - name: Publish to github
-        uses: JS-DevTools/npm-publish@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: |
-            if [[ $GITHUB_REF == 'refs/heads/master' ]]; then
-              latest
-            elif [[ $GITHUB_REF == 'refs/heads/dev' ]]; then
-              beta
-            fi
+      # - name: Publish to github
+      #   uses: JS-DevTools/npm-publish@v3
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     tag: |
+      #       if [[ $GITHUB_REF == 'refs/heads/master' ]]; then
+      #         latest
+      #       elif [[ $GITHUB_REF == 'refs/heads/dev' ]]; then
+      #         beta
+      #       fi
 
-      - name: Publish to npm
-        uses: JS-DevTools/npm-publish@v3
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
-          tag: |
-            if [[ $GITHUB_REF == 'refs/heads/master' ]]; then
-              latest
-            elif [[ $GITHUB_REF == 'refs/heads/dev' ]]; then
-              beta
-            fi
+      # - name: Publish to npm
+      #   uses: JS-DevTools/npm-publish@v3
+      #   with:
+      #     token: ${{ secrets.NPM_TOKEN }}
+      #     tag: |
+      #       if [[ $GITHUB_REF == 'refs/heads/master' ]]; then
+      #         latest
+      #       elif [[ $GITHUB_REF == 'refs/heads/dev' ]]; then
+      #         beta
+      #       fi
