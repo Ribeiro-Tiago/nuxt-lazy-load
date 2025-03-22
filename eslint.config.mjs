@@ -4,9 +4,7 @@ import { createConfigForNuxt } from "@nuxt/eslint-config/flat";
 // Run `npx @eslint/config-inspector` to inspect the resolved config interactively
 export default createConfigForNuxt({
   features: { tooling: true },
-  dirs: {
-    src: ["./playground"],
-  },
+  dirs: { src: ["./playground"] },
 }).overrideRules({
   quotes: ["warn", "double", { avoidEscape: true }],
   "@typescript-eslint/no-explicit-any": "warn",
