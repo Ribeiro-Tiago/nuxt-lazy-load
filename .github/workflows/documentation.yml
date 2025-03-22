@@ -81,7 +81,7 @@ jobs:
         id: deployment
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .output/public/
+          path: dist
 
       # - name: Zip output
       #   uses: thedoctor0/zip-release@0.7.5

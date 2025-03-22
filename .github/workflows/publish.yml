@@ -147,14 +147,10 @@ jobs:
           bunx nuxi prepare
           bun run prepack
           if [[ $GITHUB_REF == 'refs/heads/master' ]]; then
-            bun gen:changelog:beta
+            bun gen:changelog
           elif [[ $GITHUB_REF == 'refs/heads/dev' ]]; then
             bun gen:changelog:beta
           fi
-
-      # - uses: actions/setup-node@v3
-      #   with:
-      #     node-version: "20"
 
       - name: Publish to npm
         uses: JS-DevTools/npm-publish@v3
