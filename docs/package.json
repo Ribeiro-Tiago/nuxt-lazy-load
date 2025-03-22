@@ -9,7 +9,7 @@
     "preview": "nuxi preview",
     "lint": "eslint ."
   },
-  "devDependencies": {
+  "dependencies": {
     "@nuxt-themes/docus": "1.15.1",
     "nuxt": "^3.16.1",
     "typescript": "^5.8.2"
