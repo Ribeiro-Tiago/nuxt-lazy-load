@@ -155,7 +155,6 @@ jobs:
       - name: Set git user
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -163,10 +162,14 @@ jobs:
 
       - name: Publish RC
         if: github.ref == 'refs/heads/dev'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: bunx changelogen --publishTag rc --prerelease --nameSuffix rc --push
 
       - name: Publish
         if: github.ref == 'refs/heads/master'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: bunx changelogen --release --publish --push
 
       # - name: Create Github Release
