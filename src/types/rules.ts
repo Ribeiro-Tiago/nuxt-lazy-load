@@ -1,5 +1,3 @@
-import type { useHead } from "#app";
-
 type ValueOf<T> = T[keyof T];
 
 /**
@@ -30,7 +28,8 @@ export type LazyLoadRuleConfiguration = {
   [key in LazyLoadRule]?: LazyLoadRuleConfigMap[key];
 };
 
-export type RuleFunctionReturn = Parameters<typeof useHead>[0];
+// todo: type this correctly
+export type RuleFunctionReturn = Record<string, any>;
 
 export type RuleFunctionCallback = (payload: RuleFunctionReturn) => void;
 
