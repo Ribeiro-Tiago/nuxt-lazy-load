@@ -32,9 +32,9 @@
     "release:beta": "npm run lint && npm run test && npm run prepack && changelogen --prerelease && npm publish --tag beta && git push --follow-tags",
     "lint": "eslint ./nuxt.config.ts ./src",
     "lint:fix": "bun run eslint --fix",
+    "typecheck": "bunx nuxi typecheck",
     "test": "vitest run",
-    "test:watch": "vitest watch",
-    "test:types": "vue-tsc -p . --noEmit"
+    "test:watch": "vitest watch"
   },
   "dependencies": {
     "@nuxt/kit": "^3.16.0",

@@ -17,6 +17,11 @@ on:
 env:
   BUN_VERSION: 1.2.5
 
+defaults:
+  run:
+    shell: bash
+    working-directory: ./ # Ensure bun install runs in the correct working directory
+
 jobs:
   setup:
     runs-on: ubuntu-latest
@@ -33,7 +38,6 @@ jobs:
       # Install dependencies using Bun
       - name: Install dependencies
         run: bun install
-        working-directory: ./ # Ensure bun install runs in the correct working directory
 
       # Cache node_modules
       - name: Cache node_modules
@@ -80,7 +84,7 @@ jobs:
           key: ${{ hashFiles('**/bun.lock') }}
 
       - name: Typecheck
-        run: bun run test:types
+        run: bun run typecheck
 
   test:
     runs-on: ubuntu-latest
