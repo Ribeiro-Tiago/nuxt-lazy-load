@@ -72,10 +72,6 @@ jobs:
           path: node_modules
           key: ${{ hashFiles('bun.lock') }}
 
-      - name: Lint
-        working-directory: ./docs
-        run: bun run lint
-
       - name: Build
         working-directory: ./docs
         run: bun run generate

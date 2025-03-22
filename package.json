@@ -5,7 +5,7 @@
   "homepage": "https://ribeiro-tiago.github.io/nuxt-lazyload-files",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Ribeiro-Tiago/nuxt-lazy-load"
+    "url": "git+https://github.com/Ribeiro-Tiago/nuxt-lazy-load.git"
   },
   "bugs": {
     "url": "https://github.com/owner/project/issues"
