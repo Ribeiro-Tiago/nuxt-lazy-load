@@ -137,6 +137,7 @@ jobs:
 
       - name: Prepare
         run: |
+          bunx nuxi prepare
           bun run prepack
           if [[ $GITHUB_REF == 'refs/heads/master' ]]; then
             changelogen --release
