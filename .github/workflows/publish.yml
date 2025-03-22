@@ -171,14 +171,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: bunx changelogen --release --publish --push
-
-      - name: Publish to github
-        uses: JS-DevTools/npm-publish@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: |
-            if [[ $GITHUB_REF == 'refs/heads/master' ]]; then
-              latest
-            elif [[ $GITHUB_REF == 'refs/heads/dev' ]]; then
-              beta
-            fi
