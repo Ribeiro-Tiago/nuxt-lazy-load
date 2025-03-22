@@ -140,9 +140,9 @@ jobs:
           bunx nuxi prepare
           bun run prepack
           if [[ $GITHUB_REF == 'refs/heads/master' ]]; then
-            changelogen --release
+            bun gen:changelog:beta
           elif [[ $GITHUB_REF == 'refs/heads/dev' ]]; then
-            changelogen --prerelease
+            bun gen:changelog:beta
           fi
 
       # - uses: actions/setup-node@v3
