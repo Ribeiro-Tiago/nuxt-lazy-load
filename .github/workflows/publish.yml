@@ -130,6 +130,7 @@ jobs:
     permissions:
       contents: read
       packages: write # allow GITHUB_TOKEN to publish packages
+
     steps:
       - uses: actions/checkout@v4
 
@@ -152,6 +153,10 @@ jobs:
 
       - name: Publish
         run: |
+          # config commit author
+          git config user.name "GitHub Actions"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
           bunx changelogen --publishTag \
             $(
               if [[ $GITHUB_REF == 'refs/heads/master' ]]; then
