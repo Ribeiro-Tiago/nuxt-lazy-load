@@ -168,7 +168,6 @@ jobs:
         if: github.ref == 'refs/heads/master'
 
         run: |
-
           bunx changelogen --release --publish
           cat ./CHANGELOG.md
 
