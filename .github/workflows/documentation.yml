@@ -77,12 +77,14 @@ jobs:
           pwd
           ls -la
           ls ./.output/public
+          ls dist
+          ls .output/public
 
       - name: Upload static files as artifact
         id: deployment
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: /home/runner/work/nuxt-lazyload-files/nuxt-lazyload-files/docs/.output/public
 
       # - name: Zip output
       #   uses: thedoctor0/zip-release@0.7.5

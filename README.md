@@ -122,5 +122,8 @@ bun link nuxt-lazyload-files
 [npm-downloads-href]: https://npm.chart.dev/nuxt-lazyload-files
 [license-src]: https://img.shields.io/npm/l/nuxt-lazyload-files.svg?style=flat&colorA=020420&colorB=00DC82
 [license-href]: https://npmjs.com/package/nuxt-lazyload-files
-[build-src]: https://img.shields.io/npm/l/nuxt-lazyload-files.svg?style=flat&colorA=020420&colorB=00DC82
-[build-href]: https://npmjs.com/package/nuxt-lazyload-files
+
+[publish-workflow-src](https://img.shields.io/github/actions/workflow/status/ribeiro-tiago/nuxt-lazyload-files/publish.yml?branch=master)
+[publish-workflow-href]: https://github.com/Ribeiro-Tiago/nuxt-lazyload-files/actions/workflows/publish.yml
+[documentation-workflow-src](https://img.shields.io/github/actions/workflow/status/ribeiro-tiago/nuxt-lazyload-files/documentation.yml?branch=master)
+[documentation-workflow-href]: https://github.com/Ribeiro-Tiago/nuxt-lazyload-files/actions/workflows/documentation.yml
