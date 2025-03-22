@@ -81,7 +81,7 @@ jobs:
       - name: Build
         run: |
           pwd
-          bun run generate --logLevel=verbose --cwd=$(pwd)
+          bun run generate $(pwd)
           ls -la
 
       - name: Upload static files as artifact
