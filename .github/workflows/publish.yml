@@ -1,0 +1,148 @@
+name: Publish
+
+on:
+  push:
+  pull_request:
+    paths:
+      - ./src/**
+      - ./test/**
+      - ./bun.lock
+      - ./package.json
+      - ./nuxt.config.ts
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  BUN_VERSION: 1.2.5
+
+jobs:
+  # checks if node_modules are already cache, in those cases no need to run setup
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.early.conclusion }}
+    steps:
+      - if: ${{ hashFiles('**/bun.lock') }}
+        id: early
+        name: Early exit
+        run: # exit_with_success
+
+  setup:
+    runs-on: ubuntu-latest
+    if: needs.check.outputs.status == 'success'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v2
+
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      # Install dependencies using Bun
+      - name: Install dependencies
+        run: bun install
+        working-directory: ./ # Ensure bun install runs in the correct working directory
+
+      # Cache node_modules
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ hashFiles('**/bun.lock') }}
+
+  lint:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Restore cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ hashFiles('**/bun.lock') }}
+
+      - name: Lint
+        run: bun run lint
+
+  typechecking:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Restore cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ hashFiles('**/bun.lock') }}
+
+      - name: Lint
+        run: bun run test:types
+
+  test:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Restore cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ hashFiles('**/bun.lock') }}
+
+      - name: Playground prepare
+        run: bun run dev:prepare
+
+      - name: Test
+        run: bun run test
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs:
+      - setup
+      - lint
+      - typechecking
+      - test
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Restore cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ hashFiles('**/bun.lock') }}
+
+      - name: Publish
+        run: |
+          if [[ $GITHUB_REF == 'refs/heads/master' ]]; then
+            bun release
+          elif [[ $GITHUB_REF == 'refs/heads/dev' ]]; then
+            bun release:beta
+          fi
