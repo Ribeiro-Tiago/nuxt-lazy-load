@@ -168,8 +168,7 @@ jobs:
         if: github.ref == 'refs/heads/master'
 
         run: |
-          bunx changelogen --release --publish
-          cat ./CHANGELOG.md
+          bunx changelogen --release --publish --push
 
       # - name: Create Github Release
       #   id: create_release
