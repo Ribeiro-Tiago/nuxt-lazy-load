@@ -40,7 +40,6 @@
     "sass": "^1.86.0"
   },
   "devDependencies": {
-    "@nuxt-themes/docus": "^1.15.1",
     "@nuxt/devtools": "^2.3.0",
     "@nuxt/eslint-config": "^1.2.0",
     "@nuxt/module-builder": "^0.8.4",
