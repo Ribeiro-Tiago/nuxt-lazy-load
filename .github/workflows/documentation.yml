@@ -73,7 +73,9 @@ jobs:
           key: ${{ hashFiles('**/bun.lock') }}
 
       - name: Build
-        run: bun run generate .
+        run: |
+          pwd
+          bun run generate pwd
 
       - name: Upload static files as artifact
         id: deployment
