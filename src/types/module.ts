@@ -1,19 +1,4 @@
-// supported rules
-export type LazyLoadRule = "widthGT" | "widthLT";
-
-// rule specific configuration
-export type LazyLoadRuleScreenSize = { width: number };
-
-// rule to configuration mapper
-export interface LazyLoadRuleConfigMap {
-  widthGT: LazyLoadRuleScreenSize;
-  widthLT: LazyLoadRuleScreenSize;
-}
-
-// RuleConfigurations maps each LazyLoadRule to its corresponding config
-export type LazyLoadRuleConfiguration = {
-  [key in LazyLoadRule]?: LazyLoadRuleConfigMap[key];
-};
+import type { LazyLoadRuleConfiguration } from "./rules";
 
 export interface LazyFile extends LazyLoadRuleConfiguration {
   // relative to nuxt.options.rootDir

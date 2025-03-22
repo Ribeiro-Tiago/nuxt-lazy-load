@@ -5,7 +5,8 @@ import { mkdirSync, writeFileSync, readdirSync } from "node:fs";
 
 import { configKey } from "./config";
 import { name, version } from "../package.json";
-import type { LazyFile, ModuleOptions, LazyLoadRuleConfiguration, LazyLoadProcessedFiles } from "./types/module";
+import type { LazyFile, ModuleOptions, LazyLoadProcessedFiles } from "./types/module";
+import type { LazyLoadRuleConfiguration } from "./types/rules";
 
 // log level warning
 const logger = useLogger(`nuxt:${name}`, { level: 1 });
