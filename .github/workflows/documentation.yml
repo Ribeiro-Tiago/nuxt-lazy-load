@@ -80,7 +80,7 @@ jobs:
 
       - name: Build
         run: |
-          cd../
+          cd ../
           bunx nuxi generate ./docs
           ls -ll
           pwd
