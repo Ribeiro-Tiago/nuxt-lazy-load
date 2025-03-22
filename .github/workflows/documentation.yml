@@ -80,11 +80,10 @@ jobs:
 
       - name: Build
         run: |
-          cd ../
-          pwd
+          cd../
           bunx nuxi generate ./docs
-          cd ./docs
-          ls -la
+          ls -ll
+          pwd
 
       - name: Upload static files as artifact
         id: deployment
