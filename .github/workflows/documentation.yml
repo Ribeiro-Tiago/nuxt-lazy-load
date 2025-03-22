@@ -78,7 +78,6 @@ jobs:
       - name: Zip output
         uses: thedoctor0/zip-release@0.7.5
         with:
-          directory: "./.output/public"
           type: "zip"
           filename: "release.zip"
 
