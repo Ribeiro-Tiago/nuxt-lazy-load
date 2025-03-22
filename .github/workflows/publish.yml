@@ -158,16 +158,19 @@ jobs:
 
       - name: Publish RC
         if: github.ref == 'refs/heads/dev'
-        env:
-          otp: ${{ secrets.GITHUB_TOKEN }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: bunx changelogen --publishTag rc --prerelease --nameSuffix rc
 
       - name: Publish
         if: github.ref == 'refs/heads/master'
+        env:
+          otp: ${{ secrets.NPM_TOKEN }}
+          token: ${{ secrets.NPM_TOKEN }}
+          _authToken: ${{ secrets.NPM_TOKEN }}
+          authToken: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
+
           bunx changelogen --release --publish
           cat ./CHANGELOG.md
 
