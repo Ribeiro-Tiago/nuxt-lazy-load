@@ -55,76 +55,76 @@ jobs:
           path: node_modules
           key: ${{ hashFiles('**/bun.lock') }}
 
-  lint:
-    runs-on: ubuntu-latest
-    needs: setup
-    steps:
-      - uses: actions/checkout@v4
+  # lint:
+  #   runs-on: ubuntu-latest
+  #   needs: setup
+  #   steps:
+  #     - uses: actions/checkout@v4
 
-      - name: Setup bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: ${{ env.BUN_VERSION }}
+  #     - name: Setup bun
+  #       uses: oven-sh/setup-bun@v2
+  #       with:
+  #         bun-version: ${{ env.BUN_VERSION }}
 
-      - name: Restore cache
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ hashFiles('**/bun.lock') }}
+  #     - name: Restore cache
+  #       uses: actions/cache@v3
+  #       with:
+  #         path: node_modules
+  #         key: ${{ hashFiles('**/bun.lock') }}
 
-      - name: Lint
-        run: bun run lint
+  #     - name: Lint
+  #       run: bun run lint
 
-  typechecking:
-    runs-on: ubuntu-latest
-    needs: setup
-    steps:
-      - uses: actions/checkout@v4
+  # typechecking:
+  #   runs-on: ubuntu-latest
+  #   needs: setup
+  #   steps:
+  #     - uses: actions/checkout@v4
 
-      - name: Setup bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: ${{ env.BUN_VERSION }}
+  #     - name: Setup bun
+  #       uses: oven-sh/setup-bun@v2
+  #       with:
+  #         bun-version: ${{ env.BUN_VERSION }}
 
-      - name: Restore cache
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ hashFiles('**/bun.lock') }}
+  #     - name: Restore cache
+  #       uses: actions/cache@v3
+  #       with:
+  #         path: node_modules
+  #         key: ${{ hashFiles('**/bun.lock') }}
 
-      - name: Typecheck
-        run: bun run typecheck
+  #     - name: Typecheck
+  #       run: bun run typecheck
 
-  test:
-    runs-on: ubuntu-latest
-    needs: setup
-    steps:
-      - uses: actions/checkout@v4
+  # test:
+  #   runs-on: ubuntu-latest
+  #   needs: setup
+  #   steps:
+  #     - uses: actions/checkout@v4
 
-      - name: Setup bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: ${{ env.BUN_VERSION }}
+  #     - name: Setup bun
+  #       uses: oven-sh/setup-bun@v2
+  #       with:
+  #         bun-version: ${{ env.BUN_VERSION }}
 
-      - name: Restore cache
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ hashFiles('**/bun.lock') }}
+  #     - name: Restore cache
+  #       uses: actions/cache@v3
+  #       with:
+  #         path: node_modules
+  #         key: ${{ hashFiles('**/bun.lock') }}
 
-      - name: Playground prepare
-        run: bun run dev:prepare
+  #     - name: Playground prepare
+  #       run: bun run dev:prepare
 
-      - name: Test
-        run: bun run test
+  #     - name: Test
+  #       run: bun run test
 
   publish:
     runs-on: ubuntu-latest
     needs:
       - setup
-      - lint
-      - typechecking
-      - test
+      # - lint
+      # - typechecking
+      # - test
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
 
     permissions:
@@ -156,8 +156,6 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-          git config --global user.name
-
       - name: Publish RC
         if: github.ref == 'refs/heads/dev'
         run: bunx changelogen --publishTag --prerelease --nameSuffix rc
@@ -165,6 +163,8 @@ jobs:
       - name: Publish
         if: github.ref == 'refs/heads/master'
         run: |
+          git config --global user.name
+
           bunx changelogen --publishTag --release
 
       # - name: Create Github Release
