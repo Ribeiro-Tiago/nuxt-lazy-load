@@ -24,6 +24,7 @@ concurrency:
 
 env:
   BUN_VERSION: 1.2.5
+  BUILD_OUTPUT: "./.output/public"
 
 defaults:
   run:
@@ -77,7 +78,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./.output/public
+          path: ${{ env.BUILD_OUTPUT }}
 
   # Deployment
   deploy:
