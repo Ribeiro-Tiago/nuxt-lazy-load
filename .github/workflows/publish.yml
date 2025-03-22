@@ -128,7 +128,7 @@ jobs:
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
 
     permissions:
-      contents: read
+      contents: write # allow GITHUB_TOKEN to create release
       packages: write # allow GITHUB_TOKEN to publish packages
       id-token: write
 
