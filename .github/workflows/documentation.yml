@@ -70,7 +70,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ hashFiles('bun.lock') }}
+          key: ${{ hashFiles('**/bun.lock') }}
 
       - name: Build
         working-directory: ./docs
