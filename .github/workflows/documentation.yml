@@ -28,7 +28,6 @@ env:
 defaults:
   run:
     shell: bash
-    working-directory: "./docs"
 
 jobs:
   # Install dependencies
@@ -44,6 +43,7 @@ jobs:
           bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install dependencies
+        working-directory: "./docs"
         run: |
           pwd
           bun install
@@ -52,7 +52,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ hashFiles('**/bun.lock') }}
+          key: ${{ hashFiles('**/docs/bun.lock') }}
 
   # Build
   build:
@@ -76,11 +76,10 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ hashFiles('**/bun.lock') }}
+          key: ${{ hashFiles('**/docs/bun.lock') }}
 
       - name: Build
         run: |
-          cd ../
           bunx nuxi generate ./docs
           ls -ll
           pwd
@@ -89,7 +88,7 @@ jobs:
         id: deployment
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .output/public
+          path: docs/.output/public
 
   # Deployment
   deploy:

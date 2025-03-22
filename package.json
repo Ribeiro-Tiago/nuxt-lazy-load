@@ -36,7 +36,8 @@
     "lint:fix": "bun run eslint --fix",
     "typecheck": "bunx nuxi typecheck",
     "test": "vitest run",
-    "test:watch": "vitest watch"
+    "test:watch": "vitest watch",
+    "gen:docs":"bunx nuxi generate ./docs"
   },
   "dependencies": {
     "@nuxt/kit": "^3.16.0",
