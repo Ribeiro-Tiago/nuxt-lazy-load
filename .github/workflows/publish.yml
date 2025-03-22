@@ -158,12 +158,12 @@ jobs:
 
       - name: Publish RC
         if: github.ref == 'refs/heads/dev'
-        run: bunx changelogen --publishTag --prerelease --nameSuffix rc
+        run: bunx changelogen --publishTag rc --prerelease --nameSuffix rc
 
       - name: Publish
         if: github.ref == 'refs/heads/master'
         run: |
-          bunx changelogen --publishTag --release
+          bunx changelogen --release --publish
           cat ./CHANGELOG.md
 
       # - name: Create Github Release
