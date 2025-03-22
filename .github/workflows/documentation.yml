@@ -56,6 +56,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     needs: setup
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -71,9 +72,13 @@ jobs:
           path: node_modules
           key: ${{ hashFiles('bun.lock') }}
 
+      - name: Lint
+        working-directory: ./docs
+        run: bun run lint
+
       - name: Build
-        run: |
-          bun run generate
+        working-directory: ./docs
+        run: bun run generate
 
       - name: Upload static files as artifact
         id: deployment
