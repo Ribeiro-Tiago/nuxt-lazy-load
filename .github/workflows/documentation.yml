@@ -75,7 +75,9 @@ jobs:
         run: |
           bun run generate
           pwd
-          ls -ls
+          ls -la
+          ls ./docs/.output/public
+          ls ./.output/public
 
       - name: Upload static files as artifact
         id: deployment
