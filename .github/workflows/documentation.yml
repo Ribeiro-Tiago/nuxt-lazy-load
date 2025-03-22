@@ -80,8 +80,10 @@ jobs:
 
       - name: Build
         run: |
+          cd ../
           pwd
-          bun run generate .
+          bunx nuxi generate ./docs
+          cd ./docs
           ls -la
 
       - name: Upload static files as artifact
