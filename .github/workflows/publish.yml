@@ -163,9 +163,8 @@ jobs:
       - name: Publish
         if: github.ref == 'refs/heads/master'
         run: |
-          git config --global user.name
-
           bunx changelogen --publishTag --release
+          cat ./CHANGELOG.md
 
       # - name: Create Github Release
       #   id: create_release
