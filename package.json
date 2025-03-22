@@ -1,10 +1,14 @@
 {
   "name": "nuxt-lazyload-files",
-  "version": "0.2.3",
+  "version": "1.0.0",
   "description": "Module to allow lazy load specific files, so they're only imported when used (e.g.: screen size related stylings)",
+  "homepage": "https://ribeiro-tiago.github.io/nuxt-lazyload-files",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Ribeiro-Tiago/nuxt-lazy-load.git"
+    "url": "https://github.com/Ribeiro-Tiago/nuxt-lazy-load"
+  },
+  "bugs": {
+    "url": "https://github.com/owner/project/issues"
   },
   "license": "MIT",
   "type": "module",

@@ -74,28 +74,13 @@ jobs:
       - name: Build
         run: |
           bun run generate
-          pwd
-          ls -la
-          ls ./.output/public
-          ls dist
-          ls .output/public
 
       - name: Upload static files as artifact
         id: deployment
         uses: actions/upload-pages-artifact@v3
         with:
+          # todo: figure out how to remove absolute path from here
           path: /home/runner/work/nuxt-lazyload-files/nuxt-lazyload-files/docs/.output/public
-
-      # - name: Zip output
-      #   uses: thedoctor0/zip-release@0.7.5
-      #   with:
-      #     type: "zip"
-      #     filename: "release.zip"
-
-      # - name: Upload artifact
-      #   uses: actions/upload-pages-artifact@v3
-      #   with:
-      #     path: "release.zip"
 
   # Deployment
   deploy:

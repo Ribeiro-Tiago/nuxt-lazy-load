@@ -1,10 +1,10 @@
 # nuxt-lazyload-files
 
-[![npm version][npm-version-src]][npm-version-href] [![npm downloads][npm-downloads-src]][npm-downloads-href] [![License][license-src]][license-href] [![Build][build-src]][build-href]
+[![Latest version][npm-version-src]][npm-version-href] [![npm downloads][npm-downloads-src]][npm-downloads-href] [![npm][npm-src]][npm-href] [![Publish workflow][publish-workflow-src]][publish-workflow-href]
 
 - [✨ Release Notes](/CHANGELOG.md)
 - [🏀 Online playground](https://stackblitz.com/github/Ribeiro-Tiago/nuxt-lazy-load?file=playground%2Fapp.vue)
-- [📖 Documentation](https://example.com)
+- [📖 Documentation](https://ribeiro-tiago.github.io/nuxt-lazyload-files/)
 
 ## Features
 
@@ -120,10 +120,7 @@ bun link nuxt-lazyload-files
 [npm-version-href]: https://npmjs.com/package/nuxt-lazyload-files
 [npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-lazyload-files.svg?style=flat&colorA=020420&colorB=00DC82
 [npm-downloads-href]: https://npm.chart.dev/nuxt-lazyload-files
-[license-src]: https://img.shields.io/npm/l/nuxt-lazyload-files.svg?style=flat&colorA=020420&colorB=00DC82
-[license-href]: https://npmjs.com/package/nuxt-lazyload-files
-
-[publish-workflow-src](https://img.shields.io/github/actions/workflow/status/ribeiro-tiago/nuxt-lazyload-files/publish.yml?branch=master)
+[npm-src]: https://img.shields.io/npm/l/nuxt-lazyload-files.svg?style=flat&colorA=020420&colorB=00DC82
+[npm-href]: https://npmjs.com/package/nuxt-lazyload-files
+[publish-workflow-src]: https://img.shields.io/github/actions/workflow/status/ribeiro-tiago/nuxt-lazyload-files/publish.yml?branch=master
 [publish-workflow-href]: https://github.com/Ribeiro-Tiago/nuxt-lazyload-files/actions/workflows/publish.yml
-[documentation-workflow-src](https://img.shields.io/github/actions/workflow/status/ribeiro-tiago/nuxt-lazyload-files/documentation.yml?branch=master)
-[documentation-workflow-href]: https://github.com/Ribeiro-Tiago/nuxt-lazyload-files/actions/workflows/documentation.yml

@@ -8,6 +8,7 @@ on:
       - bun.lock
       - package.json
       - nuxt.config.ts
+      - README.md
       - .github/workflows/publish.yml
   pull_request:
     paths:
@@ -16,6 +17,7 @@ on:
       - bun.lock
       - package.json
       - nuxt.config.ts
+      - README.md
       - .github/workflows/publish.yml
 
   # Allows you to run this workflow manually from the Actions tab
