@@ -139,3 +139,4 @@ export default defineNuxtModule<ModuleOptions>({
 });
 
 export * from "./types/module";
+export type { LazyLoadRule, LazyLoadRuleScreenSize, LazyLoadRuleConfiguration } from "./types/rules";

@@ -2,13 +2,19 @@ import type { useHead } from "#app";
 
 type ValueOf<T> = T[keyof T];
 
-// supported rules
+/**
+ * All supported rules
+ */
 export type LazyLoadRule = "windowWidthGreaterThan" | "windowWidthLessThan";
 
-// rule specific configuration
+/**
+ * Configuration for rules related to screen width
+ */
 export type LazyLoadRuleScreenSize = { width: number };
 
-// rule to configuration mapper
+/**
+ * Rule / Configuration configmap
+ */
 export interface LazyLoadRuleConfigMap {
   windowWidthGreaterThan: LazyLoadRuleScreenSize;
   windowWidthLessThan: LazyLoadRuleScreenSize;
@@ -16,6 +22,11 @@ export interface LazyLoadRuleConfigMap {
 
 // RuleConfigurations maps each LazyLoadRule to its corresponding config
 export type LazyLoadRuleConfiguration = {
+  /**
+   * Rules to be applied to the specific file, or to all the files in a dir
+   * @see ModuleOptions
+   * @see LazyFile
+   */
   [key in LazyLoadRule]?: LazyLoadRuleConfigMap[key];
 };
 
