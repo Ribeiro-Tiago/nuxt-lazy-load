@@ -25,7 +25,6 @@ concurrency:
 
 env:
   BUN_VERSION: 1.2.5
-  BUILD_OUTPUT: "./.output/public"
 
 defaults:
   run:
@@ -76,10 +75,17 @@ jobs:
       - name: Build
         run: bun run generate
 
+      - name: Zip output
+        uses: thedoctor0/zip-release@0.7.5
+        with:
+          directory: "./.output/public"
+          type: "zip"
+          filename: "release.zip"
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ${{ env.BUILD_OUTPUT }}
+          path: "./release.zip"
 
   # Deployment
   deploy:

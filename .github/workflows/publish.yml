@@ -149,11 +149,21 @@ jobs:
       #   with:
       #     node-version: "20"
 
-      - name: Publish
+      - name: Publish to npm
         uses: JS-DevTools/npm-publish@v3
-        id: publish
         with:
           token: ${{ secrets.NPM_TOKEN }}
+          tag: |
+            if [[ $GITHUB_REF == 'refs/heads/master' ]]; then
+              latest
+            elif [[ $GITHUB_REF == 'refs/heads/dev' ]]; then
+              beta
+            fi
+
+      - name: Publish to github
+        uses: JS-DevTools/npm-publish@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           tag: |
             if [[ $GITHUB_REF == 'refs/heads/master' ]]; then
               latest
