@@ -1,8 +1,14 @@
-name: Publish
+name: Deployment
 
 on:
   push:
   pull_request:
+    paths:
+      - ./src/**
+      - ./test/**
+      - ./bun.lock
+      - ./package.json
+      - ./nuxt.config.ts
 
 env:
   NODE_VERSION: 20
