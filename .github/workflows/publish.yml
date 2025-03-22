@@ -1,4 +1,4 @@
-name: Publish
+name: Publish package
 
 on:
   push:
@@ -17,21 +17,8 @@ env:
   BUN_VERSION: 1.2.5
 
 jobs:
-  # checks if node_modules are already cache, in those cases no need to run setup
-  check:
-    runs-on: ubuntu-latest
-    outputs:
-      status: ${{ steps.early.conclusion }}
-    steps:
-      - if: ${{ hashFiles('**/bun.lock') }}
-        id: early
-        name: Early exit
-        run: # exit_with_success
-
   setup:
     runs-on: ubuntu-latest
-    if: needs.check.outputs.status == 'success'
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -141,8 +128,9 @@ jobs:
 
       - name: Publish
         run: |
-          if [[ $GITHUB_REF == 'refs/heads/master' ]]; then
-            bun release
-          elif [[ $GITHUB_REF == 'refs/heads/dev' ]]; then
-            bun release:beta
-          fi
+          bun release:beta
+          # if [[ $GITHUB_REF == 'refs/heads/master' ]]; then
+          #   bun release
+          # elif [[ $GITHUB_REF == 'refs/heads/dev' ]]; then
+          #   bun release:beta
+          # fi
