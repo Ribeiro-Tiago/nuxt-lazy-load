@@ -76,7 +76,6 @@ jobs:
           bun run generate
           pwd
           ls -la
-          ls ./docs/.output/public
           ls ./.output/public
 
       - name: Upload static files as artifact
