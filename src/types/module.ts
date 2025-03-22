@@ -3,10 +3,12 @@ import type { LazyLoadRuleConfiguration } from "./rules";
 export interface LazyFile extends LazyLoadRuleConfiguration {
   /**
    * filepath (with name) of the specific file you want to load. This is relative to nuxt.options.rootDir
+   * @required
    */
   filePath: string;
   /**
    * If you want the resulting file to have a different name than the input file. This is relative to nuxt.options.rootDir
+   * @default undefined
    */
   outputFilename?: string;
 }

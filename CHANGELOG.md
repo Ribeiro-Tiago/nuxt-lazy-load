@@ -1,6 +1,5 @@
 # Changelog
 
-
 ## v0.2.3
 
 [compare changes](https://github.com/Ribeiro-Tiago/nuxt-lazyload-css/compare/v0.2.1...v0.2.3)
@@ -22,4 +21,3 @@
 [compare changes](https://github.com/Ribeiro-Tiago/nuxt-lazyload-css/compare/v0.1.1...v0.1.1)
 
 ## v0.1.1
-
