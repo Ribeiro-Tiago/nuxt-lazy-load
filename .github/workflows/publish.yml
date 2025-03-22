@@ -158,6 +158,11 @@ jobs:
 
       - name: Publish RC
         if: github.ref == 'refs/heads/dev'
+        env:
+          otp: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: bunx changelogen --publishTag rc --prerelease --nameSuffix rc
 
       - name: Publish
