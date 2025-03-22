@@ -2,6 +2,13 @@ name: Publish package
 
 on:
   push:
+    paths:
+      - ./src/**
+      - ./test/**
+      - ./bun.lock
+      - ./package.json
+      - ./nuxt.config.ts
+      - ./.github/workflows/publish.yml
   pull_request:
     paths:
       - ./src/**
