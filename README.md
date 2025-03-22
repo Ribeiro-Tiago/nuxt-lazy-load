@@ -3,7 +3,7 @@
 [![Latest version][npm-version-src]][npm-version-href] [![npm downloads][npm-downloads-src]][npm-downloads-href] [![npm][npm-src]][npm-href] [![Publish workflow][publish-workflow-src]][publish-workflow-href]
 
 - [✨ Release Notes](/CHANGELOG.md)
-- [🏀 Online playground](https://stackblitz.com/github/Ribeiro-Tiago/nuxt-lazy-load?file=playground%2Fapp.vue)
+- [🏀 Online playground](https://stackblitz.com/github/Ribeiro-Tiago/nuxt-lazyload-files?file=playground%2Fapp.vue)
 - [📖 Documentation](https://ribeiro-tiago.github.io/nuxt-lazyload-files/)
 
 ## Features
@@ -71,7 +71,7 @@ These files also get compiled into plain CSS during build time, and it's those t
 
 ## Contribution
 
-Any and all help is always welcome, check [open issues](https://github.com/Ribeiro-Tiago/nuxt-lazy-load/issues) or [the project](https://github.com/users/Ribeiro-Tiago/projects/1/views/1) if you're not too sure what to work on
+Any and all help is always welcome, check [open issues](https://github.com/Ribeiro-Tiago/nuxt-lazyload-files/issues) or [the project](https://github.com/users/Ribeiro-Tiago/projects/1/views/1) if you're not too sure what to work on
 
 <details>
   <summary>Local development</summary>
