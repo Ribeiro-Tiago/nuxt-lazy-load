@@ -62,7 +62,24 @@ const processorMapper: Record<SupportedStyleType, StyleProcessorFunction> = {
 export const processFile = (inputPath: string, outputPath: string) => {
   const ext = extname(inputPath).toLowerCase() as SupportedStyleType;
 
-  const css = processorMapper[ext](inputPath);
+  let css: ReturnType<StyleProcessorFunction>;
+  const processor = processorMapper[ext];
+
+  if (!processor) {
+    logger.error(
+      `Tried to process \`${inputPath}\` but type not supported. Received \`.${ext}\` but only supports one ${Object.keys(
+        processor,
+      ).map((k) => `\`.${k}\``)}`,
+    );
+    return;
+  }
+
+  try {
+    css = inputPath;
+  } catch (err: unknown) {
+    logger.error(`Failed to process \`${inputPath}\`: ${err}`);
+    return;
+  }
 
   if (!css) {
     logger.warn(`"${inputPath}" is empty, skipping file`);
