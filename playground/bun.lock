@@ -4,7 +4,7 @@
     "": {
       "name": "nuxt-lazyload-files-playground",
       "dependencies": {
-        "nuxt": "^3.16.0",
+        "nuxt": "^3.16.1",
       },
     },
   },

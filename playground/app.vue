@@ -9,7 +9,13 @@
 
   <h3>Resize your window to be less than 1000px</h3>
   <section class="scss">
-    <h2>Woohoo it scss file loaded!</h2>
+    <h2>Woohoo it scss and sass files loaded!</h2>
+  </section>
+
+  <hr />
+
+  <section class="stylus">
+    <h2>stylus files loaded</h2>
   </section>
 </template>
 
