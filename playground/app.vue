@@ -9,7 +9,13 @@
 
   <h3>Resize your window to be less than 1000px</h3>
   <section class="scss">
-    <h2>Woohoo it scss file loaded!</h2>
+    <h2>Woohoo scss.scss file loaded!</h2>
+  </section>
+
+  <hr />
+
+  <section class="less">
+    <h2>less.less loaded, because window width is lower than 4000px!</h2>
   </section>
 </template>
 

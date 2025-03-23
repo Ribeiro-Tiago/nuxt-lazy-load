@@ -10,6 +10,7 @@ export default defineNuxtConfig({
       css: [
         { filePath: "assets/styles/plain.css", windowWidthGreaterThan: { width: 1 } },
         { filePath: "assets/styles/scss.scss", windowWidthLessThan: { width: 1000 } },
+        { filePath: "assets/styles/less.less", windowWidthLessThan: { width: 4000 } },
       ],
     },
   },

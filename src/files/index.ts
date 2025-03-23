@@ -5,6 +5,7 @@ import { useLogger } from "@nuxt/kit";
 import type { LazyFile, LazyLoadRuleConfiguration } from "../module";
 import { sassProcessor } from "./sass";
 import { cssProcessor } from "./css";
+import { lessProcessor } from "./less";
 import { logKey, logOptions } from "../config";
 import type { StyleProcessorFunction, SupportedStyleType } from "../types/files";
 
@@ -51,6 +52,7 @@ const processorMapper: Record<SupportedStyleType, StyleProcessorFunction> = {
   scss: sassProcessor,
   sass: sassProcessor,
   css: cssProcessor,
+  less: lessProcessor,
 };
 
 export const processFile = async (inputPath: string, outputPath: string) => {
