@@ -49,7 +49,8 @@
     "cssnano": "^7.0.6",
     "postcss": "^8.5.3",
     "postcss-cli": "^11.0.1",
-    "sass": "^1.86.0"
+    "sass": "^1.86.0",
+    "stylus": "^0.64.0"
   },
   "devDependencies": {
     "@nuxt/devtools": "^2.3.0",
@@ -58,6 +59,7 @@
     "@nuxt/schema": "^3.16.0",
     "@nuxt/test-utils": "^3.17.2",
     "@types/node": "latest",
+    "@types/stylus": "^0.48.43",
     "changelogen": "^0.6.1",
     "eslint": "^9.22.0",
     "nuxt": "^3.16.0",
