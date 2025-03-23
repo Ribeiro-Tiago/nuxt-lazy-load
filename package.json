@@ -33,6 +33,7 @@
     "access": "public"
   },
   "scripts": {
+    "prepare": "nuxi prepare",
     "prepack": "nuxt-module-build build",
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
@@ -45,7 +46,7 @@
     "gen:docs": "bunx nuxi generate ./docs"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.16.0",
+    "@nuxt/kit": "^3.16.1",
     "cssnano": "^7.0.6",
     "postcss": "^8.5.3",
     "postcss-cli": "^11.0.1",
@@ -53,16 +54,16 @@
     "stylus": "^0.64.0"
   },
   "devDependencies": {
-    "@nuxt/devtools": "^2.3.0",
+    "@nuxt/devtools": "^2.3.1",
     "@nuxt/eslint-config": "^1.2.0",
     "@nuxt/module-builder": "^0.8.4",
-    "@nuxt/schema": "^3.16.0",
+    "@nuxt/schema": "^3.16.1",
     "@nuxt/test-utils": "^3.17.2",
     "@types/node": "latest",
     "@types/stylus": "^0.48.43",
     "changelogen": "^0.6.1",
-    "eslint": "^9.22.0",
-    "nuxt": "^3.16.0",
+    "eslint": "^9.23.0",
+    "nuxt": "^3.16.1",
     "typescript": "~5.8.2",
     "vitest": "^3.0.9",
     "vue-tsc": "^2.2.8"
