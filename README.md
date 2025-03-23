@@ -54,14 +54,14 @@ lazyLoadFiles: {
 <details>
   <summary>css</summary>
 
-At the moment this module only supports lazy loading SCSS files. All other preprocessors and vanilla CSS still needs to be implemented, haven't had the time
+At the moment this module only supports lazy loading CSS and CSS/SCSS files. All other preprocessors and vanilla CSS still needs to be implemented, haven't had the time
 
 These files also get compiled into plain CSS during build time, and it's those that the plugin uses
 
 | Rule                   | Config            | Supported format | Description                                               |
 | ---------------------- | ----------------- | ---------------- | --------------------------------------------------------- |
-| windowWidthGreaterThan | { width: number } | SCSS             | Loads the files when window width is greater than `width` |
-| windowWidthLessThan    | { width: number } | SCSS             | Loads the files when window width is less than `width`    |
+| windowWidthGreaterThan | { width: number } | SCSS/SASS, CSS   | Loads the files when window width is greater than `width` |
+| windowWidthLessThan    | { width: number } | SCSS/SASS, CSS   | Loads the files when window width is less than `width`    |
 
 </details>
 
