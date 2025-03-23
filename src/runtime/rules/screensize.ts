@@ -21,9 +21,9 @@ const handleResize = (path: string, callback: RuleFunctionCallback, condition: (
 
 // Refactored functions
 export const screensizeLowerThan: RuleFunction<LazyLoadRuleScreenSize> = (path, { width }, callback) => {
-  handleResize(path, callback!, (innerWidth) => innerWidth > width);
+  handleResize(path, callback!, (innerWidth) => innerWidth < width);
 };
 
 export const screensizeGreaterThan: RuleFunction<LazyLoadRuleScreenSize> = (path, { width }, callback) => {
-  handleResize(path, callback!, (innerWidth) => innerWidth < width);
+  handleResize(path, callback!, (innerWidth) => innerWidth > width);
 };
