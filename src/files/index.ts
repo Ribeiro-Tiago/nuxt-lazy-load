@@ -6,6 +6,7 @@ import type { LazyFile, LazyLoadRuleConfiguration } from "../module";
 import type { StyleProcessorFunction, SupportedStyleType } from "../types/files";
 import { sassProcessor } from "./sass";
 import { cssProcessor } from "./css";
+import { lessProcessor } from "./less";
 import { logKey, logOptions } from "../config";
 import { stylusProcessor } from "./stylus";
 
@@ -52,6 +53,7 @@ const processorMapper: Record<SupportedStyleType, StyleProcessorFunction> = {
   scss: sassProcessor,
   sass: sassProcessor,
   css: cssProcessor,
+  less: lessProcessor,
   styl: stylusProcessor,
   stylus: stylusProcessor,
 };
