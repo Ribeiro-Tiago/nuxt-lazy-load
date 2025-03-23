@@ -10,6 +10,7 @@
   "bugs": {
     "url": "https://github.com/owner/project/issues"
   },
+  "keywords": ["lazyload", "nuxt-module", "nuxt3"],
   "license": "MIT",
   "type": "module",
   "exports": {
@@ -41,6 +42,9 @@
   },
   "dependencies": {
     "@nuxt/kit": "^3.16.0",
+    "cssnano": "^7.0.6",
+    "postcss": "^8.5.3",
+    "postcss-cli": "^11.0.1",
     "sass": "^1.86.0"
   },
   "devDependencies": {
