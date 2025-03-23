@@ -1,6 +1,5 @@
 import { readdirSync, writeFileSync } from "node:fs";
 import { extname, join } from "node:path";
-import type { ConsolaInstance } from "consola";
 import { useLogger } from "@nuxt/kit";
 
 import type { LazyFile, LazyLoadRuleConfiguration } from "../module";
@@ -14,12 +13,7 @@ const normalizePath = (path: string) => path.replaceAll(/[/\\]/g, "");
 
 const logger = useLogger(logKey, logOptions);
 
-export const getFilesToProcess = (
-  logger: ConsolaInstance,
-  specificFiles: LazyFile[],
-  rules: LazyLoadRuleConfiguration,
-  inputDir?: string,
-) => {
+export const getFilesToProcess = (specificFiles: LazyFile[], rules: LazyLoadRuleConfiguration, inputDir?: string) => {
   // if user only specified specific files, no need to do anything regarding dir search
   if (specificFiles.length && !inputDir) {
     return specificFiles;
@@ -59,32 +53,34 @@ const processorMapper: Record<SupportedStyleType, StyleProcessorFunction> = {
   css: cssProcessor,
 };
 
-export const processFile = (inputPath: string, outputPath: string) => {
-  const ext = extname(inputPath).toLowerCase() as SupportedStyleType;
+export const processFile = async (inputPath: string, outputPath: string) => {
+  // get extension without .
+  const ext = extname(inputPath).toLowerCase().substring(1) as SupportedStyleType;
 
-  let css: ReturnType<StyleProcessorFunction>;
+  let css: Awaited<ReturnType<StyleProcessorFunction>>;
   const processor = processorMapper[ext];
 
   if (!processor) {
     logger.error(
       `Tried to process \`${inputPath}\` but type not supported. Received \`.${ext}\` but only supports one ${Object.keys(
-        processor,
+        processorMapper,
       ).map((k) => `\`.${k}\``)}`,
     );
-    return;
+    return false;
   }
 
   try {
-    css = inputPath;
+    css = await processor(inputPath);
   } catch (err: unknown) {
     logger.error(`Failed to process \`${inputPath}\`: ${err}`);
-    return;
+    return false;
   }
 
   if (!css) {
     logger.warn(`"${inputPath}" is empty, skipping file`);
-    return;
+    return false;
   }
 
   writeFileSync(outputPath, css);
+  return true;
 };

@@ -40,25 +40,29 @@ export default defineNuxtModule<ModuleOptions>({
 
       const processedFiles: LazyLoadProcessedFiles[] = [];
 
-      getFilesToProcess(logger, files?.css || [], rules, inputDir).forEach(({ filePath, outputFilename, ...rules }) => {
-        const filename = outputFilename || `${basename(filePath, extname(filePath))}.css`;
-        const outputPath = outputFilename
-          ? // if user specified filename for end product, use it
-            resolve(dirname(resolvedOutputDir), filename)
-          : // if not, use the original filename
-            resolve(resolvedOutputDir, filename);
+      await Promise.allSettled(
+        getFilesToProcess(files?.css || [], rules, inputDir).map(({ filePath, outputFilename, ...rules }) => {
+          const filename = outputFilename || `${basename(filePath, extname(filePath))}.css`;
+          const outputPath = outputFilename
+            ? resolve(dirname(resolvedOutputDir), filename)
+            : resolve(resolvedOutputDir, filename);
 
-        processFile(filePath, outputPath);
-        processedFiles.push({ path: join(outputDir || defaults.outputDir, filename), rules });
-
-        logger.debug(`Compiled files stored in ${outputPath} assets direction`);
-      });
+          return processFile(filePath, outputPath)
+            .then((success) => {
+              if (success) {
+                logger.debug(`Compiled files were stored in ${outputPath} assets directory`);
+                processedFiles.push({ path: join(outputDir || defaults.outputDir, filename), rules });
+              }
+            })
+            .catch((err) => logger.error(`Failed to compile: ${err}`));
+        }),
+      );
 
       // Add file to public directory
       nuxt.options.nitro = nuxt.options.nitro || {};
       nuxt.options.nitro.publicAssets = nuxt.options.nitro.publicAssets || [];
       nuxt.options.nitro.publicAssets.push({ dir: resolvedOutputDir, baseURL: outputDir || defaults.outputDir });
-      logger.debug("Styles added to public assets direction");
+      logger.debug("Processed files added to public assets directory");
 
       // Register plugin
       if (plugin) {

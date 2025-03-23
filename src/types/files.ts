@@ -1,3 +1,3 @@
 export type SupportedStyleType = "scss" | "sass" | "css";
 
-export type StyleProcessorFunction = (filePath: string) => string | undefined | null;
+export type StyleProcessorFunction = (filePath: string) => Promise<string | undefined | null>;
