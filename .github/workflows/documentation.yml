@@ -44,7 +44,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd ./docs
-          bun install --lockfile-only
+          bun install --frozen-lockfile
 
       - name: Build
         run: bunx nuxi generate ./docs
