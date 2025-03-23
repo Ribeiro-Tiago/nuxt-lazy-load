@@ -10,6 +10,7 @@
   "bugs": {
     "url": "https://github.com/owner/project/issues"
   },
+  "keywords": ["lazyload", "nuxt-module", "nuxt3"],
   "license": "MIT",
   "type": "module",
   "exports": {
