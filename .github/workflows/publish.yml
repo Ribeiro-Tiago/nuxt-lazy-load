@@ -46,7 +46,7 @@ jobs:
 
       # Install dependencies using Bun
       - name: Install dependencies
-        run: bun install
+        run: bun install --lockfile-only
 
       # Cache node_modules
       - name: Cache node_modules
