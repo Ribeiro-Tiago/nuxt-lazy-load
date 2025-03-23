@@ -149,7 +149,7 @@ jobs:
       - name: Prepare
         id: prepare
         run: |
-          bunx nuxi prepare
+          bun run prepare
           bun run prepack
 
       - name: Set git user
