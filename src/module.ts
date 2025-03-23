@@ -3,7 +3,7 @@ import { compile } from "sass";
 import { defineNuxtModule, addPlugin, createResolver, resolvePath, useLogger } from "@nuxt/kit";
 import { mkdirSync, writeFileSync, readdirSync } from "node:fs";
 
-import { configKey } from "./config";
+import { configKey } from "./runtime/config";
 import { name, version } from "../package.json";
 import type { LazyFile, ModuleOptions, LazyLoadProcessedFiles } from "./types/module";
 import type { LazyLoadRuleConfiguration } from "./types/rules";

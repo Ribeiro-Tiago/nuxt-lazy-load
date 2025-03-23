@@ -1,5 +1,5 @@
-import type { LazyLoadRuleScreenSize } from "../module";
-import type { RuleFunction, RuleFunctionCallback } from "../types/rules";
+import type { LazyLoadRuleScreenSize } from "../../module";
+import type { RuleFunction, RuleFunctionCallback } from "../../types/rules";
 
 // Helper function to handle resize logic
 const handleResize = (path: string, callback: RuleFunctionCallback, condition: (innerWidth: number) => boolean) => {
