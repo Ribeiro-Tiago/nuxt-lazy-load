@@ -3,11 +3,12 @@ import { extname, join } from "node:path";
 import { useLogger } from "@nuxt/kit";
 
 import type { LazyFile, LazyLoadRuleConfiguration } from "../module";
+import type { StyleProcessorFunction, SupportedStyleType } from "../types/files";
 import { sassProcessor } from "./sass";
 import { cssProcessor } from "./css";
 import { lessProcessor } from "./less";
 import { logKey, logOptions } from "../config";
-import type { StyleProcessorFunction, SupportedStyleType } from "../types/files";
+import { stylusProcessor } from "./stylus";
 
 // remove OS shenannigans with folder dividers
 const normalizePath = (path: string) => path.replaceAll(/[/\\]/g, "");
@@ -53,6 +54,8 @@ const processorMapper: Record<SupportedStyleType, StyleProcessorFunction> = {
   sass: sassProcessor,
   css: cssProcessor,
   less: lessProcessor,
+  styl: stylusProcessor,
+  stylus: stylusProcessor,
 };
 
 export const processFile = async (inputPath: string, outputPath: string) => {
