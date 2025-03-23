@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.1.1
+
+
+### 🩹 Fixes
+
+- Less import ([1a96b90](https://github.com/Ribeiro-Tiago/nuxt-lazyload-files/commit/1a96b90))
+
+### ❤️ Contributors
+
+- Tiago Ribeiro <tiagoribeiro.1803@gmail.com>
+
 ## v1.0.5
 
 ## v1.0.4
