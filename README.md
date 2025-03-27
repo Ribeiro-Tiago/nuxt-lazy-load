@@ -60,8 +60,8 @@ These files also get compiled into plain CSS during build time, and it's those t
 
 | Rule                   | Config            | Supported format  | Description                                               |
 | ---------------------- | ----------------- | ----------------- | --------------------------------------------------------- |
-| windowWidthGreaterThan | { width: number } | SASS, Stylus, CSS | Loads the files when window width is greater than `width` |
-| windowWidthLessThan    | { width: number } | SASS, Stylus, CSS | Loads the files when window width is less than `width`    |
+| windowWidthGreaterThan | { width: number } | SASS, Stylus, LESS, CSS | Loads the files when window width is greater than `width` |
+| windowWidthLessThan    | { width: number } | SASS, Stylus, LESS, CSS | Loads the files when window width is less than `width`    |
 
 </details>
 
